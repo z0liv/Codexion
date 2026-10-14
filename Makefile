@@ -2,9 +2,9 @@ NAME = codexion
 
 CC = cc
 FLAGS = -pthread -Wall -Wextra -Werror
-OBJS_DIR = objs
+OBJS_DIR = ./objs
 
-SRCS = codexion.c
+SRCS = src/codexion.c src/data_initializer.c src/data_validator.c
 		
 OBJS = $(SRCS:%.c=$(OBJS_DIR)/%.o)
 
@@ -18,8 +18,8 @@ run: $(NAME)
 	./codexion
 
 $(OBJS_DIR)/%.o: %.c
-	@mkdir -p $(OBJS_DIR)
-	$(CC) $(CFLAGS) $(INCLUDES) -c $< -o $@
+	@mkdir -p $(dir $@)
+	$(CC) $(FLAGS) $(INCLUDES) -c $< -o $@
 
 clean:
 	rm -rf $(OBJS_DIR)

@@ -6,7 +6,7 @@
 /*   By: omarquez <omarquez@student.42urduliz.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/10/12 09:54:04 by omarquez          #+#    #+#             */
-/*   Updated: 2026/10/12 13:40:30 by omarquez         ###   ########.fr       */
+/*   Updated: 2026/10/14 13:23:13 by omarquez         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,19 +21,48 @@
 # include <string.h>
 # include <sys/time.h>
 
-typedef struct s_data
+typedef enum e_status
 {
-	int		n_coders;
-	int		n_dongles;
-	int		n_comp_req;
-	int		t_burn;
-	int		t_debug;
-	int		t_comp;
-	int		t_refact;
-	int		t_d_cooldown;
-	char	*scheduler;
-}			t_data;
+	COMPILING,
+	DEBUGGING,
+	REFACTORING,
+	BURNED_OUT,
+	TOOK_R_DONGLE,
+	TOOK_L_DONGLE,
+}	t_coder_status;
 
-int	parser(char *arg);
+typedef struct s_hub
+{
+	long			n_coders;
+	long			n_dongles;
+	long			n_comp_req;
+	long			t_burn;
+	long			t_debug;
+	long			t_comp;
+	long			t_refact;
+	long			t_d_cooldown;
+	char			*scheduler;
+	pthread_mutex_t	dongles;
+	pthread_mutex_t	printed_actions;
+	pthread_mutex_t	hub_mutex;
+}					t_hub;
+
+typedef struct s_coder
+{
+	pthread_t			thread;
+	long				id;
+	long				c_compiled;
+	long				last_c_compiled;
+	long				is_burnout;
+	long				has_finish;
+	long				left_dongle;
+	long				right_dongle;
+	pthread_mutex_t		l_dongle;
+	pthread_mutex_t		r_dongle;
+}						t_coder;
+
+int		parser(char *arg);
+int		validate_data(t_hub *data);
+void	init_data(int len, char **args, t_hub *data);
 
 #endif
