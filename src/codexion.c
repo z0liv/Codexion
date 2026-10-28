@@ -6,7 +6,7 @@
 /*   By: omarquez <omarquez@student.42urduliz.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/10/12 09:53:02 by omarquez          #+#    #+#             */
-/*   Updated: 2026/10/14 13:14:02 by omarquez         ###   ########.fr       */
+/*   Updated: 2026/10/28 09:15:01 by omarquez         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ int	main(int argc, char **argv)
 	t_hub	*data;
 
 	if (argc != 9)
-		return (0);
+		return (write(2, "program expects 7 arguments", 27));
 	data = malloc(sizeof(t_hub));
 	init_data(argc, argv, data);
 	if (!validate_data(data))

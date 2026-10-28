@@ -6,7 +6,7 @@
 /*   By: omarquez <omarquez@student.42urduliz.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/10/12 09:54:04 by omarquez          #+#    #+#             */
-/*   Updated: 2026/10/14 13:23:13 by omarquez         ###   ########.fr       */
+/*   Updated: 2026/10/28 10:18:29 by omarquez         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,10 +14,10 @@
 # define CODEXION_H
 
 # include <pthread.h>
-
 # include <stdio.h>
 # include <unistd.h>
 # include <stdlib.h>
+# include <stdbool.h>
 # include <string.h>
 # include <sys/time.h>
 
@@ -61,8 +61,11 @@ typedef struct s_coder
 	pthread_mutex_t		r_dongle;
 }						t_coder;
 
-int		parser(char *arg);
 int		validate_data(t_hub *data);
+int		ft_isdigit(int c);
+long	ft_parser(char *arg);
+long	ft_atol(const char *str);
+bool	ft_is_valid_input(char *str);
 void	init_data(int len, char **args, t_hub *data);
 
 #endif

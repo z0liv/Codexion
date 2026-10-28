@@ -4,7 +4,13 @@ CC = cc
 FLAGS = -pthread -Wall -Wextra -Werror
 OBJS_DIR = ./objs
 
-SRCS = src/codexion.c src/data_initializer.c src/data_validator.c
+SRCS = src/codexion.c \
+	src/data_initializer.c \
+	src/data_validator.c \
+	src/ft_parser.c \
+	src/ft_atol.c \
+	src/ft_is_valid_input.c \
+	src/ft_isdigit.c \
 		
 OBJS = $(SRCS:%.c=$(OBJS_DIR)/%.o)
 

@@ -6,7 +6,7 @@
 /*   By: omarquez <omarquez@student.42urduliz.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/10/13 09:06:21 by omarquez          #+#    #+#             */
-/*   Updated: 2026/10/14 13:23:49 by omarquez         ###   ########.fr       */
+/*   Updated: 2026/10/28 10:15:06 by omarquez         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ void	init_data(int len, char **args, t_hub *data)
 	{
 		if (counter == 1)
 		{
-			data -> n_coders = atoi(args[counter]);
+			data -> n_coders = ft_parser(args[counter]);
 			data -> n_dongles = atoi(args[counter++]);
 		}
 		else if (counter == 2)
