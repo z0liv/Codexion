@@ -6,7 +6,7 @@
 /*   By: omarquez <omarquez@student.42urduliz.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/10/13 09:06:21 by omarquez          #+#    #+#             */
-/*   Updated: 2026/10/28 10:15:06 by omarquez         ###   ########.fr       */
+/*   Updated: 2026/10/28 10:44:34 by omarquez         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,20 +22,20 @@ void	init_data(int len, char **args, t_hub *data)
 		if (counter == 1)
 		{
 			data -> n_coders = ft_parser(args[counter]);
-			data -> n_dongles = atoi(args[counter++]);
+			data -> n_dongles = ft_parser(args[counter++]);
 		}
 		else if (counter == 2)
-			data -> t_burn = atoi(args[counter++]);
+			data -> t_burn = ft_parser(args[counter++]);
 		else if (counter == 3)
-			data -> t_comp = atoi(args[counter++]);
+			data -> t_comp = ft_parser(args[counter++]);
 		else if (counter == 4)
-			data -> t_debug = atoi(args[counter++]);
+			data -> t_debug = ft_parser(args[counter++]);
 		else if (counter == 5)
-			data -> t_refact = atoi(args[counter++]);
+			data -> t_refact = ft_parser(args[counter++]);
 		else if (counter == 6)
-			data -> n_comp_req = atoi(args[counter++]);
+			data -> n_comp_req = ft_parser(args[counter++]);
 		else if (counter == 7)
-			data -> t_d_cooldown = atoi(args[counter++]);
+			data -> t_d_cooldown = ft_parser(args[counter++]);
 		else if (counter == 8)
 			data -> scheduler = args[counter++];
 	}
