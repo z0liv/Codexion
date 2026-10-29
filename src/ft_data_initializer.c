@@ -1,18 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   data_initializer.c                                 :+:      :+:    :+:   */
+/*   ft_data_initializer.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: omarquez <omarquez@student.42urduliz.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/10/13 09:06:21 by omarquez          #+#    #+#             */
-/*   Updated: 2026/10/28 10:44:34 by omarquez         ###   ########.fr       */
+/*   Updated: 2026/10/29 13:28:23 by omarquez         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "codexion.h"
 
-void	init_data(int len, char **args, t_hub *data)
+void	ft_data_initializer(int len, char **args, t_hub *data)
 {
 	int		counter;
 

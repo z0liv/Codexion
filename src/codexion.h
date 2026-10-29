@@ -6,7 +6,7 @@
 /*   By: omarquez <omarquez@student.42urduliz.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/10/12 09:54:04 by omarquez          #+#    #+#             */
-/*   Updated: 2026/10/28 10:18:29 by omarquez         ###   ########.fr       */
+/*   Updated: 2026/10/29 13:28:43 by omarquez         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,21 @@ typedef enum e_status
 	TOOK_R_DONGLE,
 	TOOK_L_DONGLE,
 }	t_coder_status;
+
+typedef struct e_request
+{
+	int		coder_id;
+	long	request_time;
+	long	deadline;
+}	t_request;
+
+typedef struct s_heap
+{
+	t_request	*queue;
+	int			capacity;
+	int			size;
+	int			is_edf;
+}	t_heap;
 
 typedef struct s_hub
 {
@@ -61,11 +76,11 @@ typedef struct s_coder
 	pthread_mutex_t		r_dongle;
 }						t_coder;
 
-int		validate_data(t_hub *data);
+int		ft_data_validator(t_hub *data);
 int		ft_isdigit(int c);
 long	ft_parser(char *arg);
 long	ft_atol(const char *str);
 bool	ft_is_valid_input(char *str);
-void	init_data(int len, char **args, t_hub *data);
+void	ft_data_initializer(int len, char **args, t_hub *data);
 
 #endif
