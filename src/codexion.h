@@ -6,7 +6,7 @@
 /*   By: omarquez <omarquez@student.42urduliz.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/10/12 09:54:04 by omarquez          #+#    #+#             */
-/*   Updated: 2026/11/02 09:49:53 by omarquez         ###   ########.fr       */
+/*   Updated: 2026/11/02 13:29:03 by omarquez         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,5 +94,6 @@ long	ft_parser(char *arg);
 long	ft_atol(const char *str);
 bool	ft_is_valid_input(char *str);
 void	ft_data_initializer(int len, char **args, t_hub *data);
+void	*ft_clean_shutdown(t_hub *data);
 
 #endif

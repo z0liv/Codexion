@@ -11,6 +11,7 @@ SRCS = src/codexion.c \
 	src/ft_atol.c \
 	src/ft_is_valid_input.c \
 	src/ft_isdigit.c \
+	src/ft_clean_shutdown.c \
 		
 OBJS = $(SRCS:%.c=$(OBJS_DIR)/%.o)
 
