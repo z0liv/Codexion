@@ -6,13 +6,13 @@
 /*   By: omarquez <omarquez@student.42urduliz.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/10/12 09:53:02 by omarquez          #+#    #+#             */
-/*   Updated: 2026/11/02 13:39:11 by omarquez         ###   ########.fr       */
+/*   Updated: 2026/11/03 13:02:55 by omarquez         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "codexion.h"
 
-static void	*ft_hub_init(t_hub *hub)
+void	*ft_hub_init(t_hub *hub)
 {
 	hub -> coders = malloc(sizeof(t_coder) * hub -> n_coders);
 	if (!hub -> coders)
@@ -22,6 +22,9 @@ static void	*ft_hub_init(t_hub *hub)
 		return (ft_clean_shutdown(hub), NULL);
 	pthread_mutex_init(&hub -> print_mutex, NULL);
 	pthread_mutex_init(&hub -> hub_mutex, NULL);
+	ft_init_dongles(hub);
+	ft_init_coders(hub);
+	return (NULL);
 }
 
 static int	ft_handle_n_args(void)

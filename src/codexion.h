@@ -6,7 +6,7 @@
 /*   By: omarquez <omarquez@student.42urduliz.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/10/12 09:54:04 by omarquez          #+#    #+#             */
-/*   Updated: 2026/11/02 13:29:03 by omarquez         ###   ########.fr       */
+/*   Updated: 2026/11/03 13:04:34 by omarquez         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,12 +88,28 @@ typedef struct s_hub
 	pthread_mutex_t	hub_mutex;
 }					t_hub;
 
+/* Parse and validations */
 int		ft_data_validator(t_hub *data);
 int		ft_isdigit(int c);
 long	ft_parser(char *arg);
 long	ft_atol(const char *str);
 bool	ft_is_valid_input(char *str);
 void	ft_data_initializer(int len, char **args, t_hub *data);
+
+/* Heap Functions */
+bool	ft_heap_init(t_heap *heap, int capacity, bool is_edf);
+
+/* Dongles Functions */
+void	*ft_init_dongles(t_hub *hub);
+
+/* Coder Functions */
+void	*ft_init_coders(t_hub *hub);
+
+/* Hub Functions */
+bool	ft_get_sim_status(t_hub *hub);
+void	ft_set_sim_status(t_hub *hub, bool value);
+
+/* Cleanup functions */
 void	*ft_clean_shutdown(t_hub *data);
 
 #endif
