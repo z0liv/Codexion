@@ -12,6 +12,7 @@ SRCS = src/codexion.c \
 	src/ft_is_valid_input.c \
 	src/ft_isdigit.c \
 	src/ft_heap.c \
+	src/ft_heap_utils.c \
 	src/ft_dongles.c \
 	src/ft_coders.c \
 	src/ft_simulation.c \

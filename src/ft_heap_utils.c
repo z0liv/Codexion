@@ -1,0 +1,47 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ft_heap_utils.c                                    :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: omarquez <omarquez@student.42urduliz.com>  +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2026/11/04 10:07:14 by omarquez          #+#    #+#             */
+/*   Updated: 2026/11/04 12:07:48 by omarquez         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#include "codexion.h"
+
+bool	ft_check_priority(t_request req1, t_request req2, bool is_edf)
+{
+	if (is_edf)
+	{
+		if (req1.deadline != req2.deadline)
+			return (req1.deadline < req2.deadline);
+	}
+	return (req1.request_time < req2.request_time);
+}
+
+int	ft_get_highest_child(t_heap *heap, int i)
+{
+	int	left;
+	int	right;
+	int	best;
+
+	left = 2 * i + 1;
+	right = 2 * i + 2;
+	best = i;
+	if (left < heap -> size
+		&& ft_check_priority(
+			heap -> queue[left],
+			heap -> queue[best],
+			heap -> is_edf))
+		best = left;
+	if (right < heap -> size
+		&& ft_check_priority(
+			heap -> queue[right],
+			heap -> queue[best],
+			heap -> is_edf))
+		best = right;
+	return (best);
+}
