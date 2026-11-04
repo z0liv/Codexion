@@ -6,7 +6,7 @@
 /*   By: omarquez <omarquez@student.42urduliz.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/11/03 10:26:33 by omarquez          #+#    #+#             */
-/*   Updated: 2026/11/03 13:08:27 by omarquez         ###   ########.fr       */
+/*   Updated: 2026/11/04 13:19:04 by omarquez         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,4 +35,13 @@ void	*ft_init_dongles(t_hub *hub)
 		counter ++;
 	}
 	return (NULL);
+}
+
+void	ft_acquire_dongles(t_coder *coder)
+{
+	t_dongle	first;
+	t_dongle	second;
+
+	first = ft_decide_dongle(coder, true);
+	second = ft_decide_dongle(coder, false);
 }
