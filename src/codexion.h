@@ -6,7 +6,7 @@
 /*   By: omarquez <omarquez@student.42urduliz.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/10/12 09:54:04 by omarquez          #+#    #+#             */
-/*   Updated: 2026/11/04 13:19:17 by omarquez         ###   ########.fr       */
+/*   Updated: 2026/11/05 12:09:10 by omarquez         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -109,6 +109,10 @@ bool		ft_check_priority(t_request req1, t_request req2, bool is_edf);
 void		*ft_init_dongles(t_hub *hub);
 void		ft_acquire_dongles(t_coder *coder);
 t_dongle	ft_decide_dongle(t_coder *coder, bool min);
+
+/* Logs Functions */
+long long	ft_get_time_ms(void);
+void		ft_log_action(t_coder *coder, char *msg);
 
 /* Coder Functions */
 void		*ft_init_coders(t_hub *hub);

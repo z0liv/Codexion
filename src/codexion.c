@@ -6,7 +6,7 @@
 /*   By: omarquez <omarquez@student.42urduliz.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/10/12 09:53:02 by omarquez          #+#    #+#             */
-/*   Updated: 2026/11/03 13:02:55 by omarquez         ###   ########.fr       */
+/*   Updated: 2026/11/05 12:07:50 by omarquez         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,7 @@ void	*ft_hub_init(t_hub *hub)
 	pthread_mutex_init(&hub -> hub_mutex, NULL);
 	ft_init_dongles(hub);
 	ft_init_coders(hub);
+	hub -> start_time = ft_get_time_ms();
 	return (NULL);
 }
 
