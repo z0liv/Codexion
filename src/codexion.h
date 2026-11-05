@@ -6,7 +6,7 @@
 /*   By: omarquez <omarquez@student.42urduliz.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/10/12 09:54:04 by omarquez          #+#    #+#             */
-/*   Updated: 2026/11/05 12:09:10 by omarquez         ###   ########.fr       */
+/*   Updated: 2026/11/05 13:28:25 by omarquez         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,6 +101,7 @@ bool		ft_heap_init(t_heap *heap, int capacity, bool is_edf);
 void		ft_heap_destroy(t_heap *heap);
 void		ft_heap_push(t_heap *heap, t_request req);
 t_request	ft_heap_pop(t_heap *heap);
+t_request	ft_heap_check(t_heap *heap);
 
 int			ft_get_highest_child(t_heap *heap, int i);
 bool		ft_check_priority(t_request req1, t_request req2, bool is_edf);
@@ -108,6 +109,7 @@ bool		ft_check_priority(t_request req1, t_request req2, bool is_edf);
 /* Dongles Functions */
 void		*ft_init_dongles(t_hub *hub);
 void		ft_acquire_dongles(t_coder *coder);
+void	ft_acquire_one_dongle(t_coder *coder, t_dongle *dongle);
 t_dongle	ft_decide_dongle(t_coder *coder, bool min);
 
 /* Logs Functions */
