@@ -6,7 +6,7 @@
 /*   By: omarquez <omarquez@student.42urduliz.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/11/05 10:21:58 by omarquez          #+#    #+#             */
-/*   Updated: 2026/11/05 12:10:01 by omarquez         ###   ########.fr       */
+/*   Updated: 2026/11/06 10:07:03 by omarquez         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,4 +34,17 @@ void	ft_log_action(t_coder *coder, char *msg)
 		printf("%lld %lld %s\n", timestamp, coder -> id, msg);
 	}
 	pthread_mutex_unlock(&coder -> hub -> print_mutex);
+}
+
+void	ft_precise_usleep(long long time_in_ms, t_hub *hub)
+{
+	long long	start;
+
+	start = ft_get_time_ms();
+	while (!ft_get_sim_status(hub))
+	{
+		if (ft_get_time_ms() - start >= time_in_ms)
+			break ;
+		usleep(500);
+	}
 }
