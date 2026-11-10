@@ -6,7 +6,7 @@
 /*   By: omarquez <omarquez@student.42urduliz.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/10/12 09:54:04 by omarquez          #+#    #+#             */
-/*   Updated: 2026/11/09 12:36:06 by omarquez         ###   ########.fr       */
+/*   Updated: 2026/11/10 10:36:13 by omarquez         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,11 +23,11 @@
 
 typedef enum e_status
 {
+	STAND_BY,
 	COMPILING,
 	DEBUGGING,
 	REFACTORING,
 	BURNED_OUT,
-	TOOK_DONGLE,
 }	t_coder_status;
 
 typedef struct e_request
@@ -60,8 +60,9 @@ typedef struct s_coder
 	pthread_t			thread;
 	long long			id;
 	long long			c_compiled;
-	long long			last_c_compiled;
+	long long			last_t_compiled;
 	bool				has_finish;
+	t_coder_status		status;
 	t_dongle			l_dongle;
 	t_dongle			r_dongle;
 	pthread_mutex_t		coder_mutext;
@@ -121,6 +122,13 @@ void		ft_precise_usleep(long long time_in_ms, t_hub *hub);
 
 /* Coder Functions */
 void		*ft_init_coders(t_hub *hub);
+
+/* Routine Functions */
+void		ft_compile_phase(t_coder *coder);
+void		ft_debug_phase(t_coder *coder);
+void		ft_refact_phase(t_coder *coder);
+void		*ft_coder_routine(void *arg);
+void		*ft_monitor_routine(void *arg);
 
 /* Hub Functions */
 bool		ft_get_sim_status(t_hub *hub);

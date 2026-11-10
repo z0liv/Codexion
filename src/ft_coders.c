@@ -6,7 +6,7 @@
 /*   By: omarquez <omarquez@student.42urduliz.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/11/03 10:26:29 by omarquez          #+#    #+#             */
-/*   Updated: 2026/11/03 13:06:10 by omarquez         ###   ########.fr       */
+/*   Updated: 2026/11/09 13:30:55 by omarquez         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,9 +23,10 @@ void	*ft_init_coders(t_hub *hub)
 		cod = malloc(sizeof(t_dongle));
 		cod -> id = counter + 1;
 		cod -> c_compiled = 0;
-		cod -> last_c_compiled = 0;
+		cod -> last_t_compiled = 0;
 		cod -> has_finish = false;
 		cod -> hub = hub;
+		cod -> status = STAND_BY;
 		cod -> l_dongle = hub->dongles[counter];
 		cod -> r_dongle = hub->dongles[(counter + 1) % hub -> n_coders];
 		hub -> coders[counter] = *cod;

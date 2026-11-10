@@ -18,6 +18,8 @@ SRCS = src/codexion.c \
 	src/ft_coders.c \
 	src/ft_simulation.c \
 	src/ft_logs.c \
+	src/ft_coder_routine.c \
+	src/ft_monitor_routine.c \
 	src/ft_clean_shutdown.c \
 		
 OBJS = $(SRCS:%.c=$(OBJS_DIR)/%.o)

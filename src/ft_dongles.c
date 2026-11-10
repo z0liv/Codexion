@@ -6,7 +6,7 @@
 /*   By: omarquez <omarquez@student.42urduliz.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/11/03 10:26:33 by omarquez          #+#    #+#             */
-/*   Updated: 2026/11/09 13:00:02 by omarquez         ###   ########.fr       */
+/*   Updated: 2026/11/10 09:09:35 by omarquez         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,7 @@ void	ft_acquire_one_dongle(t_coder *coder, t_dongle *dongle)
 	pthread_mutex_lock(&dongle -> mutex);
 	req.coder_id = coder -> id;
 	req.request_time = ft_get_time_ms();
-	req.deadline = coder -> last_c_compiled;
+	req.deadline = coder -> last_t_compiled;
 	ft_heap_push(&dongle -> queue, req);
 	while (
 		dongle -> is_in_use
@@ -90,4 +90,3 @@ void	ft_release_one_dongle(t_coder *coder, t_dongle *dongle)
 	pthread_cond_broadcast(&dongle -> cond);
 	pthread_mutex_unlock(&dongle -> mutex);
 }
-
