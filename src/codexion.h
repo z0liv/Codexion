@@ -6,7 +6,7 @@
 /*   By: omarquez <omarquez@student.42urduliz.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/10/12 09:54:04 by omarquez          #+#    #+#             */
-/*   Updated: 2026/11/10 10:36:13 by omarquez         ###   ########.fr       */
+/*   Updated: 2026/11/10 13:21:17 by omarquez         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,6 @@ typedef enum e_status
 	COMPILING,
 	DEBUGGING,
 	REFACTORING,
-	BURNED_OUT,
 }	t_coder_status;
 
 typedef struct e_request
@@ -65,7 +64,7 @@ typedef struct s_coder
 	t_coder_status		status;
 	t_dongle			l_dongle;
 	t_dongle			r_dongle;
-	pthread_mutex_t		coder_mutext;
+	pthread_mutex_t		coder_mutex;
 	struct s_hub		*hub;
 }						t_coder;
 
@@ -95,7 +94,7 @@ int			ft_isdigit(int c);
 long		ft_parser(char *arg);
 long		ft_atol(const char *str);
 bool		ft_is_valid_input(char *str);
-void		ft_data_initializer(int len, char **args, t_hub *data);
+void		ft_data_initializer(int len, char **args, t_hub *hub);
 
 /* Heap Functions */
 bool		ft_heap_init(t_heap *heap, int capacity, bool is_edf);
@@ -130,11 +129,12 @@ void		ft_refact_phase(t_coder *coder);
 void		*ft_coder_routine(void *arg);
 void		*ft_monitor_routine(void *arg);
 
-/* Hub Functions */
+/* Simulation Functions */
 bool		ft_get_sim_status(t_hub *hub);
 void		ft_set_sim_status(t_hub *hub, bool value);
+void		ft_start_simulation(t_hub *hub);
 
 /* Cleanup functions */
-void		*ft_clean_shutdown(t_hub *data);
+void		*ft_clean_up(t_hub *hub);
 
 #endif

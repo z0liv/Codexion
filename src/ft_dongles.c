@@ -6,7 +6,7 @@
 /*   By: omarquez <omarquez@student.42urduliz.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/11/03 10:26:33 by omarquez          #+#    #+#             */
-/*   Updated: 2026/11/10 09:09:35 by omarquez         ###   ########.fr       */
+/*   Updated: 2026/11/10 13:15:14 by omarquez         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,16 +15,15 @@
 void	*ft_init_dongles(t_hub *hub)
 {
 	int			counter;
-	t_dongle	*dngl;
+	t_dongle	dngl;
 
 	counter = 0;
 	while (counter < hub -> n_dongles)
 	{
-		dngl = malloc(sizeof(t_dongle));
-		dngl -> id = counter;
-		dngl -> is_in_use = false;
-		dngl -> available_at = 0;
-		hub -> dongles[counter] = *dngl;
+		dngl.id = counter;
+		dngl.is_in_use = false;
+		dngl.available_at = 0;
+		hub -> dongles[counter] = dngl;
 		pthread_mutex_init(&hub -> dongles[counter].mutex, NULL);
 		pthread_cond_init(&hub -> dongles[counter].cond, NULL);
 		if (ft_heap_init(

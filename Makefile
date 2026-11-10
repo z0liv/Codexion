@@ -20,7 +20,7 @@ SRCS = src/codexion.c \
 	src/ft_logs.c \
 	src/ft_coder_routine.c \
 	src/ft_monitor_routine.c \
-	src/ft_clean_shutdown.c \
+	src/ft_clean_up.c \
 		
 OBJS = $(SRCS:%.c=$(OBJS_DIR)/%.o)
 
@@ -44,5 +44,8 @@ fclean: clean
 	rm -f $(NAME)
 
 re: fclean all
+
+debug:
+	gcc -Wall -Wextra -Werror -g3 -fsanitize=thread src/*.c -o ${NAME} -lpthread
 
 .PHONY: all clean fclean re

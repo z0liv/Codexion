@@ -6,7 +6,7 @@
 /*   By: omarquez <omarquez@student.42urduliz.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/11/10 10:11:12 by omarquez          #+#    #+#             */
-/*   Updated: 2026/11/10 10:38:48 by omarquez         ###   ########.fr       */
+/*   Updated: 2026/11/10 12:37:59 by omarquez         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,9 +18,9 @@ static bool	ft_check_burnout(t_hub *hub, t_coder *coder)
 	long long	last_start;
 
 	now = ft_get_time_ms();
-	pthread_mutex_lock(&coder -> coder_mutext);
+	pthread_mutex_lock(&coder -> coder_mutex);
 	last_start = coder -> last_t_compiled;
-	pthread_mutex_unlock(&coder -> coder_mutext);
+	pthread_mutex_unlock(&coder -> coder_mutex);
 	if (now - last_start > hub -> t_burn)
 	{
 		ft_set_sim_status(hub, true);
@@ -42,10 +42,10 @@ static bool	ft_check_all_finished(t_hub *hub)
 	counter = 0;
 	while (counter < hub -> n_coders)
 	{
-		pthread_mutex_lock(&hub -> coders[counter].coder_mutext);
+		pthread_mutex_lock(&hub -> coders[counter].coder_mutex);
 		if (hub -> coders[counter].c_compiled >= hub -> n_comp_req)
 			finished_count ++;
-		pthread_mutex_unlock(&hub -> coders[counter].coder_mutext);
+		pthread_mutex_unlock(&hub -> coders[counter].coder_mutex);
 	}
 	if (finished_count == hub -> n_coders)
 	{
@@ -92,7 +92,7 @@ void	*ft_monitor_routine(void *arg)
 			ft_wake_up_all_dongles(hub);
 			return (NULL);
 		}
-		ft_precise_usleep(1000, hub);
+		usleep(1000);
 	}
 	return (NULL);
 }

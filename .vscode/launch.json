@@ -1,0 +1,34 @@
+{
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "name": "Debug Codexion",
+      "type": "cppdbg",
+      "request": "launch",
+      "program": "${workspaceFolder}/codexion",
+      "args": [
+        "4",
+        "1000",
+        "200",
+        "100",
+        "150",
+        "5",
+        "50",
+		"fifo"
+      ],
+      "stopAtEntry": false,
+      "cwd": "${workspaceFolder}",
+      "environment": [],
+      "externalConsole": false,
+      "MIMode": "gdb",
+      "setupCommands": [
+        {
+          "description": "Habilitar formato de salida para GDB",
+          "text": "-enable-pretty-printing",
+          "ignoreFailures": true
+        }
+      ],
+      "preLaunchTask": "make debug"
+    }
+  ]
+}
