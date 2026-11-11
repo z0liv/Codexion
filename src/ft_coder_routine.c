@@ -6,7 +6,7 @@
 /*   By: omarquez <omarquez@student.42urduliz.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/11/09 13:06:15 by omarquez          #+#    #+#             */
-/*   Updated: 2026/11/11 19:01:52 by omarquez         ###   ########.fr       */
+/*   Updated: 2026/11/11 20:04:18 by omarquez         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,9 +64,6 @@ void	*ft_coder_routine(void *arg)
 			break ;
 		ft_compile_phase(coder);
 		ft_release_dongles(coder);
-		if (coder -> hub -> n_comp_req > 0
-			&& coder -> c_compiled >= coder -> hub -> n_comp_req)
-			break ;
 		ft_debug_phase(coder);
 		ft_refact_phase(coder);
 		ft_set_coder_status(coder, STAND_BY);
