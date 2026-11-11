@@ -6,7 +6,7 @@
 /*   By: omarquez <omarquez@student.42urduliz.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/11/09 13:06:15 by omarquez          #+#    #+#             */
-/*   Updated: 2026/11/10 12:37:59 by omarquez         ###   ########.fr       */
+/*   Updated: 2026/11/11 15:29:34 by omarquez         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ void	ft_refact_phase(t_coder *coder)
 {
 	ft_set_coder_status(coder, REFACTORING);
 	ft_log_action(coder, "is refactoring");
-	ft_precise_usleep(coder -> hub -> t_debug, coder -> hub);
+	ft_precise_usleep(coder -> hub -> t_refact, coder -> hub);
 }
 
 void	*ft_coder_routine(void *arg)

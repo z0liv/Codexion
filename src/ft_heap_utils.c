@@ -6,7 +6,7 @@
 /*   By: omarquez <omarquez@student.42urduliz.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/11/04 10:07:14 by omarquez          #+#    #+#             */
-/*   Updated: 2026/11/04 12:07:48 by omarquez         ###   ########.fr       */
+/*   Updated: 2026/11/11 16:22:51 by omarquez         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,9 @@ bool	ft_check_priority(t_request req1, t_request req2, bool is_edf)
 		if (req1.deadline != req2.deadline)
 			return (req1.deadline < req2.deadline);
 	}
-	return (req1.request_time < req2.request_time);
+	if (req1.request_time != req2.request_time)
+		return (req1.request_time < req2.request_time);
+	return (req1.coder_id < req2.coder_id);
 }
 
 int	ft_get_highest_child(t_heap *heap, int i)

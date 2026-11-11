@@ -6,7 +6,7 @@
 /*   By: omarquez <omarquez@student.42urduliz.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/11/10 10:11:12 by omarquez          #+#    #+#             */
-/*   Updated: 2026/11/10 12:37:59 by omarquez         ###   ########.fr       */
+/*   Updated: 2026/11/11 16:27:23 by omarquez         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,6 @@ static bool	ft_check_burnout(t_hub *hub, t_coder *coder)
 		ft_log_action(coder, "burned out");
 		return (true);
 	}
-	ft_log_action(coder, "burned out");
 	return (false);
 }
 
@@ -46,6 +45,7 @@ static bool	ft_check_all_finished(t_hub *hub)
 		if (hub -> coders[counter].c_compiled >= hub -> n_comp_req)
 			finished_count ++;
 		pthread_mutex_unlock(&hub -> coders[counter].coder_mutex);
+		counter ++;
 	}
 	if (finished_count == hub -> n_coders)
 	{
