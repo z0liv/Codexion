@@ -6,7 +6,7 @@
 /*   By: omarquez <omarquez@student.42urduliz.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/11/03 12:44:05 by omarquez          #+#    #+#             */
-/*   Updated: 2026/11/11 14:26:22 by omarquez         ###   ########.fr       */
+/*   Updated: 2026/11/11 19:11:14 by omarquez         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,38 +29,64 @@ void	ft_set_sim_status(t_hub *hub, bool value)
 	pthread_mutex_unlock(&hub -> hub_mutex);
 }
 
-void	ft_start_simulation(t_hub *hub)
+static void ft_open_start_gate(t_hub *hub)
 {
-	int			counter;
-	pthread_t 	monitor;
+	int	counter;
 
-	hub -> ready_to_start = false;
+	pthread_mutex_lock(&hub -> hub_mutex);
 	counter = 0;
 	while (counter < hub -> n_coders)
 	{
+		pthread_mutex_lock(&hub -> coders[counter].coder_mutex);
 		hub -> coders[counter].last_t_compiled = hub -> start_time;
-		if (pthread_create(
-			&hub -> coders[counter].thread,
-			NULL, ft_coder_routine, &hub -> coders[counter]) != 0)
-			return ;
-		counter ++;
-	}
-	hub -> start_time = ft_get_time_ms();
-	counter = 0;
-	while (counter < hub -> n_coders)
-	{
-		hub -> coders[counter].last_t_compiled = hub -> start_time;
+		pthread_mutex_unlock(&hub -> coders[counter].coder_mutex);
 		counter ++;
 	}
 	hub -> ready_to_start = true;
-	if (pthread_create(&monitor, NULL, ft_monitor_routine, hub) != 0)
-		return ;
-	pthread_join(monitor, NULL);
-	counter = 0;
-	while(counter < hub -> n_coders)
-	{
-		pthread_join(hub -> coders[counter].thread, NULL);
-		counter ++;
-	}
-	return ;
+	pthread_cond_broadcast(&hub -> start_cond);
+	pthread_mutex_unlock(&hub -> hub_mutex);
+}
+
+bool	ft_start_simulation(t_hub *hub)
+{
+    int         counter;
+    int         created;
+    pthread_t   monitor;
+
+    counter = 0;
+    created = 0;
+	hub -> start_time = ft_get_time_ms();
+    while (counter < hub->n_coders)
+    {
+        if (pthread_create(&hub->coders[counter].thread,
+                NULL, ft_coder_routine,
+                &hub->coders[counter]) != 0)
+            break;
+        created++;
+        counter++;
+    }
+    if (pthread_create(&monitor, NULL, ft_monitor_routine,
+            hub) != 0)
+    {
+        ft_set_sim_status(hub, true);
+        pthread_mutex_lock(&hub->hub_mutex);
+        pthread_cond_broadcast(&hub->start_cond);
+        pthread_mutex_unlock(&hub->hub_mutex);
+        counter = 0;
+        while (counter < created)
+        {
+            pthread_join(hub->coders[counter].thread, NULL);
+            counter++;
+        }
+        return (false);
+    }
+    ft_open_start_gate(hub);
+    pthread_join(monitor, NULL);
+    counter = 0;
+    while (counter < hub->n_coders)
+    {
+        pthread_join(hub->coders[counter].thread, NULL);
+        counter++;
+    }
+    return (true);
 }

@@ -6,7 +6,7 @@
 /*   By: omarquez <omarquez@student.42urduliz.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/10/12 09:54:04 by omarquez          #+#    #+#             */
-/*   Updated: 2026/11/11 16:46:03 by omarquez         ###   ########.fr       */
+/*   Updated: 2026/11/11 18:56:31 by omarquez         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,6 +85,7 @@ typedef struct s_hub
 	long long		start_time;
 	t_dongle		*dongles;
 	t_coder			*coders;
+	pthread_cond_t	start_cond;
 	pthread_mutex_t	print_mutex;
 	pthread_mutex_t	hub_mutex;
 }					t_hub;
@@ -108,12 +109,13 @@ int			ft_get_highest_child(t_heap *heap, int i);
 bool		ft_check_priority(t_request req1, t_request req2, bool is_edf);
 
 /* Dongles Functions */
-void		*ft_init_dongles(t_hub *hub);
+bool		ft_init_dongles(t_hub *hub);
 void		ft_acquire_dongles(t_coder *coder);
 void		ft_acquire_one_dongle(t_coder *coder, t_dongle *dongle);
 void		ft_release_dongles(t_coder *coder);
 void		ft_release_one_dongle(t_coder *coder, t_dongle *dongle);
 t_dongle	*ft_decide_dongle(t_coder *coder, bool min);
+bool		ft_cleanup_dongles(t_hub *hub, int count);
 
 /* Logs Functions */
 long long	ft_get_time_ms(void);
@@ -121,7 +123,7 @@ void		ft_log_action(t_coder *coder, char *msg);
 void		ft_precise_usleep(long long time_in_ms, t_hub *hub);
 
 /* Coder Functions */
-void		*ft_init_coders(t_hub *hub);
+bool		ft_init_coders(t_hub *hub);
 
 /* Routine Functions */
 void		ft_compile_phase(t_coder *coder);
@@ -133,7 +135,7 @@ void		*ft_monitor_routine(void *arg);
 /* Simulation Functions */
 bool		ft_get_sim_status(t_hub *hub);
 void		ft_set_sim_status(t_hub *hub, bool value);
-void		ft_start_simulation(t_hub *hub);
+bool		ft_start_simulation(t_hub *hub);
 
 /* Cleanup functions */
 void		*ft_clean_up(t_hub *hub);

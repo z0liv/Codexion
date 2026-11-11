@@ -6,7 +6,7 @@
 /*   By: omarquez <omarquez@student.42urduliz.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/10/12 09:53:02 by omarquez          #+#    #+#             */
-/*   Updated: 2026/11/11 14:22:54 by omarquez         ###   ########.fr       */
+/*   Updated: 2026/11/11 18:26:46 by omarquez         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,15 +16,23 @@ static void	*ft_init_hub(t_hub *hub)
 {
 	hub -> coders = malloc(sizeof(t_coder) * hub -> n_coders);
 	if (!hub -> coders)
-		return (ft_clean_up(hub), NULL);
+		return (NULL);
 	hub -> dongles = malloc(sizeof(t_dongle) * hub -> n_dongles);
 	if (!hub -> dongles)
-		return (ft_clean_up(hub), NULL);
-	pthread_mutex_init(&hub -> print_mutex, NULL);
-	pthread_mutex_init(&hub -> hub_mutex, NULL);
-	ft_init_dongles(hub);
-	ft_init_coders(hub);
-	hub -> start_time = ft_get_time_ms();
+		return (NULL);
+	if (pthread_mutex_init(&hub -> print_mutex, NULL) != 0)
+		return (NULL);
+	if (pthread_mutex_init(&hub -> hub_mutex, NULL) != 0)
+		return (NULL);
+	if (pthread_cond_init(&hub -> start_cond, NULL) != 0)
+		return (NULL);
+	if (!ft_init_dongles(hub))
+		return (NULL);
+	if (!ft_init_coders(hub))
+		return (NULL);
+	hub -> start_time = 0;
+	hub -> ready_to_start = false;
+	hub -> simulation_end = false;
 	return ((void *)hub);
 }
 
@@ -46,13 +54,14 @@ int	main(int argc, char **argv)
 		return (ft_handle_n_args());
 	hub = malloc(sizeof(t_hub));
 	if (!hub)
-		return (0);
+		return (1);
 	ft_data_initializer(argc, argv, hub);
 	if (!ft_data_validator(hub))
-		return (free(hub), 0);
+		return (free(hub), 1);
 	if (!ft_init_hub(hub))
-		return (ft_clean_up(hub), 0);
-	ft_start_simulation(hub);
+		return (ft_clean_up(hub), 1);
+	if (!ft_start_simulation(hub))
+		return (ft_clean_up(hub), 1);
 	ft_clean_up(hub);
 	return (0);
 }

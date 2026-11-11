@@ -6,7 +6,7 @@
 /*   By: omarquez <omarquez@student.42urduliz.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/11/09 13:06:15 by omarquez          #+#    #+#             */
-/*   Updated: 2026/11/11 16:45:58 by omarquez         ###   ########.fr       */
+/*   Updated: 2026/11/11 19:01:52 by omarquez         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,12 +53,15 @@ void	*ft_coder_routine(void *arg)
 	t_coder	*coder;
 
 	coder = (t_coder *)arg;
-	while (!coder -> hub -> ready_to_start)
-		usleep(100);
-	
+	pthread_mutex_lock(&coder -> hub -> hub_mutex);
+	while (!coder -> hub -> ready_to_start && !coder -> hub -> simulation_end)
+		pthread_cond_wait(&coder -> hub -> start_cond, &coder -> hub -> hub_mutex);
+	pthread_mutex_unlock(&coder -> hub -> hub_mutex);
 	while (!ft_get_sim_status(coder -> hub))
 	{
 		ft_acquire_dongles(coder);
+		if (ft_get_sim_status(coder -> hub))
+			break ;
 		ft_compile_phase(coder);
 		ft_release_dongles(coder);
 		if (coder -> hub -> n_comp_req > 0

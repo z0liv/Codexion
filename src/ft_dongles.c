@@ -6,34 +6,36 @@
 /*   By: omarquez <omarquez@student.42urduliz.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/11/03 10:26:33 by omarquez          #+#    #+#             */
-/*   Updated: 2026/11/11 16:45:30 by omarquez         ###   ########.fr       */
+/*   Updated: 2026/11/11 19:02:38 by omarquez         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "codexion.h"
 
-void	*ft_init_dongles(t_hub *hub)
+bool	ft_init_dongles(t_hub *hub)
 {
 	int			counter;
-	t_dongle	dngl;
+	t_dongle	*dngl;
 
 	counter = 0;
 	while (counter < hub -> n_dongles)
 	{
-		dngl.id = counter;
-		dngl.is_in_use = false;
-		dngl.available_at = 0;
-		hub -> dongles[counter] = dngl;
-		pthread_mutex_init(&hub -> dongles[counter].mutex, NULL);
-		pthread_cond_init(&hub -> dongles[counter].cond, NULL);
-		if (ft_heap_init(
+		dngl = &hub -> dongles[counter];
+		dngl -> id = counter;
+		dngl -> is_in_use = false;
+		dngl -> available_at = 0;
+		if (pthread_mutex_init(&hub -> dongles[counter].mutex, NULL) != 0)
+			return (ft_cleanup_dongles(hub, counter));
+		if (pthread_cond_init(&hub -> dongles[counter].cond, NULL) != 0)
+			return (ft_cleanup_dongles(hub, counter));
+		if (!ft_heap_init(
 				&hub -> dongles[counter].queue,
 				hub -> n_dongles,
-				hub -> is_edf) != true)
-			return (NULL);
+				hub -> is_edf))
+			return (ft_cleanup_dongles(hub, counter));
 		counter ++;
 	}
-	return (NULL);
+	return (true);
 }
 
 void	ft_acquire_dongles(t_coder *coder)
@@ -80,6 +82,8 @@ void	ft_acquire_one_dongle(t_coder *coder, t_dongle *dongle)
 		}
 		break ;
 	}
+	dongle->is_in_use = true;
+	ft_heap_pop(&dongle->queue);
 	pthread_mutex_unlock(&dongle->mutex);
 	ft_log_action(coder, "has taken a dongle");
 }
