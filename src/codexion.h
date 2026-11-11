@@ -6,7 +6,7 @@
 /*   By: omarquez <omarquez@student.42urduliz.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/10/12 09:54:04 by omarquez          #+#    #+#             */
-/*   Updated: 2026/11/11 16:24:53 by omarquez         ###   ########.fr       */
+/*   Updated: 2026/11/11 16:46:03 by omarquez         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,6 +72,7 @@ typedef struct s_hub
 {
 	bool			is_edf;
 	bool			simulation_end;
+	bool			ready_to_start;
 	char			*scheduler;
 	long long		n_coders;
 	long long		n_dongles;

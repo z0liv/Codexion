@@ -6,7 +6,7 @@
 /*   By: omarquez <omarquez@student.42urduliz.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/11/03 12:44:05 by omarquez          #+#    #+#             */
-/*   Updated: 2026/11/10 13:43:37 by omarquez         ###   ########.fr       */
+/*   Updated: 2026/11/11 14:26:22 by omarquez         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ void	ft_start_simulation(t_hub *hub)
 	int			counter;
 	pthread_t 	monitor;
 
-	hub -> start_time = ft_get_time_ms();
+	hub -> ready_to_start = false;
 	counter = 0;
 	while (counter < hub -> n_coders)
 	{
@@ -45,6 +45,14 @@ void	ft_start_simulation(t_hub *hub)
 			return ;
 		counter ++;
 	}
+	hub -> start_time = ft_get_time_ms();
+	counter = 0;
+	while (counter < hub -> n_coders)
+	{
+		hub -> coders[counter].last_t_compiled = hub -> start_time;
+		counter ++;
+	}
+	hub -> ready_to_start = true;
 	if (pthread_create(&monitor, NULL, ft_monitor_routine, hub) != 0)
 		return ;
 	pthread_join(monitor, NULL);

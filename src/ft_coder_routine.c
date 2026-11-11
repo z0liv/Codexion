@@ -6,7 +6,7 @@
 /*   By: omarquez <omarquez@student.42urduliz.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/11/09 13:06:15 by omarquez          #+#    #+#             */
-/*   Updated: 2026/11/11 15:29:34 by omarquez         ###   ########.fr       */
+/*   Updated: 2026/11/11 16:45:58 by omarquez         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,6 +53,9 @@ void	*ft_coder_routine(void *arg)
 	t_coder	*coder;
 
 	coder = (t_coder *)arg;
+	while (!coder -> hub -> ready_to_start)
+		usleep(100);
+	
 	while (!ft_get_sim_status(coder -> hub))
 	{
 		ft_acquire_dongles(coder);

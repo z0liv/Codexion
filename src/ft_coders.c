@@ -6,7 +6,11 @@
 /*   By: omarquez <omarquez@student.42urduliz.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/11/03 10:26:29 by omarquez          #+#    #+#             */
+<<<<<<< HEAD
 /*   Updated: 2026/11/11 15:29:19 by omarquez         ###   ########.fr       */
+=======
+/*   Updated: 2026/11/11 13:26:41 by omarquez         ###   ########.fr       */
+>>>>>>> e172a2fc2ca300c1cb505be8a1315087cd705de3
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,12 +26,11 @@ void	*ft_init_coders(t_hub *hub)
 	{
 		cod.id = counter + 1;
 		cod.c_compiled = 0;
-		cod.last_t_compiled = 0;
 		cod.has_finish = false;
 		cod.hub = hub;
 		cod.status = STAND_BY;
 		cod.l_dongle = &hub->dongles[counter];
-		cod.r_dongle = &hub->dongles[(counter + 1) % hub -> n_coders];
+		cod.r_dongle = &hub->dongles[(counter + 1) % hub -> n_dongles];
 		hub -> coders[counter] = cod;
 		pthread_mutex_init(&hub -> coders[counter].coder_mutex, NULL);
 		counter ++;
