@@ -6,7 +6,7 @@
 /*   By: omarquez <omarquez@student.42urduliz.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/10/12 09:54:04 by omarquez          #+#    #+#             */
-/*   Updated: 2026/11/10 13:21:17 by omarquez         ###   ########.fr       */
+/*   Updated: 2026/11/11 14:19:06 by omarquez         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,8 +62,8 @@ typedef struct s_coder
 	long long			last_t_compiled;
 	bool				has_finish;
 	t_coder_status		status;
-	t_dongle			l_dongle;
-	t_dongle			r_dongle;
+	t_dongle			*l_dongle;
+	t_dongle			*r_dongle;
 	pthread_mutex_t		coder_mutex;
 	struct s_hub		*hub;
 }						t_coder;
@@ -72,6 +72,7 @@ typedef struct s_hub
 {
 	bool			is_edf;
 	bool			simulation_end;
+	bool			ready_to_start;
 	char			*scheduler;
 	long long		n_coders;
 	long long		n_dongles;
@@ -112,7 +113,7 @@ void		ft_acquire_dongles(t_coder *coder);
 void		ft_acquire_one_dongle(t_coder *coder, t_dongle *dongle);
 void		ft_release_dongles(t_coder *coder);
 void		ft_release_one_dongle(t_coder *coder, t_dongle *dongle);
-t_dongle	ft_decide_dongle(t_coder *coder, bool min);
+t_dongle	*ft_decide_dongle(t_coder *coder, bool min);
 
 /* Logs Functions */
 long long	ft_get_time_ms(void);

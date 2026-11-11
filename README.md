@@ -6,7 +6,7 @@
 ---
 ## Instrucciones
 ---
-
+./codexion 4 1000 200 100 150 5 50 fifo
 
 ## Recursos
 - [Guía Básica de pthread](https://medium.com/@dipakkardel93/getting-started-with-threads-in-c-using-pthread-create-and-pthread-join-95e2a59808b1)

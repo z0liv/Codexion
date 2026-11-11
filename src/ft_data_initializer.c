@@ -6,7 +6,7 @@
 /*   By: omarquez <omarquez@student.42urduliz.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/10/13 09:06:21 by omarquez          #+#    #+#             */
-/*   Updated: 2026/11/10 11:44:55 by omarquez         ###   ########.fr       */
+/*   Updated: 2026/11/11 13:19:16 by omarquez         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,8 +21,8 @@ void	ft_data_initializer(int len, char **args, t_hub *hub)
 	{
 		if (counter == 1)
 		{
-			hub -> n_coders = ft_parser(args[counter]);
-			hub -> n_dongles = ft_parser(args[counter++]);
+			hub -> n_coders = ft_parser(args[counter++]);
+			hub -> n_dongles = hub -> n_coders;
 		}
 		else if (counter == 2)
 			hub -> t_burn = ft_parser(args[counter++]);
