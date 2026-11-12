@@ -6,7 +6,7 @@
 /*   By: omarquez <omarquez@student.42urduliz.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/11/03 12:44:05 by omarquez          #+#    #+#             */
-/*   Updated: 2026/11/12 09:29:23 by omarquez         ###   ########.fr       */
+/*   Updated: 2026/11/12 12:00:11 by omarquez         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,6 @@ bool	ft_start_simulation(t_hub *hub)
                 NULL, ft_coder_routine,
                 &hub->coders[counter]) != 0)
             break;
-        created++;
         counter++;
     }
     if (pthread_create(&monitor, NULL, ft_monitor_routine,
