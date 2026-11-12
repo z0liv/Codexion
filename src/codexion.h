@@ -6,7 +6,7 @@
 /*   By: omarquez <omarquez@student.42urduliz.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/10/12 09:54:04 by omarquez          #+#    #+#             */
-/*   Updated: 2026/11/11 18:56:31 by omarquez         ###   ########.fr       */
+/*   Updated: 2026/11/12 15:16:04 by omarquez         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,6 +104,8 @@ void		ft_heap_destroy(t_heap *heap);
 void		ft_heap_push(t_heap *heap, t_request req);
 t_request	ft_heap_pop(t_heap *heap);
 t_request	ft_heap_check(t_heap *heap);
+void		ft_push_request(t_coder *coder, t_dongle *dongle,
+				long long req_time, long long deadline);
 
 int			ft_get_highest_child(t_heap *heap, int i);
 bool		ft_check_priority(t_request req1, t_request req2, bool is_edf);
@@ -111,9 +113,7 @@ bool		ft_check_priority(t_request req1, t_request req2, bool is_edf);
 /* Dongles Functions */
 bool		ft_init_dongles(t_hub *hub);
 void		ft_acquire_dongles(t_coder *coder);
-void		ft_acquire_one_dongle(t_coder *coder, t_dongle *dongle);
 void		ft_release_dongles(t_coder *coder);
-void		ft_release_one_dongle(t_coder *coder, t_dongle *dongle);
 t_dongle	*ft_decide_dongle(t_coder *coder, bool min);
 bool		ft_cleanup_dongles(t_hub *hub, int count);
 
@@ -134,8 +134,10 @@ void		*ft_monitor_routine(void *arg);
 
 /* Simulation Functions */
 bool		ft_get_sim_status(t_hub *hub);
-void		ft_set_sim_status(t_hub *hub, bool value);
 bool		ft_start_simulation(t_hub *hub);
+void		ft_set_sim_status(t_hub *hub, bool value);
+int			ft_create_coders_threads(t_hub *hub, int counter);
+void		ft_handle_monitor_fail(t_hub *hub, int counter, int created);
 
 /* Cleanup functions */
 void		*ft_clean_up(t_hub *hub);

@@ -6,7 +6,7 @@
 /*   By: omarquez <omarquez@student.42urduliz.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/11/02 13:27:35 by omarquez          #+#    #+#             */
-/*   Updated: 2026/11/11 18:11:49 by omarquez         ###   ########.fr       */
+/*   Updated: 2026/11/12 13:24:59 by omarquez         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ static void	ft_clean_dongles(t_hub *hub)
 	counter = 0;
 	if (hub -> dongles)
 	{
-		while(counter < hub -> n_dongles)
+		while (counter < hub -> n_dongles)
 		{
 			pthread_mutex_destroy(&hub -> dongles[counter].mutex);
 			pthread_cond_destroy(&hub -> dongles[counter].cond);
@@ -32,13 +32,13 @@ static void	ft_clean_dongles(t_hub *hub)
 
 static void	ft_clean_coders(t_hub *hub)
 {
-	int counter;
+	int	counter;
 
 	counter = 0;
 	if (hub -> coders)
 	{
 		counter = 0;
-		while(counter < hub -> n_coders)
+		while (counter < hub -> n_coders)
 		{
 			pthread_mutex_destroy(&hub -> coders[counter].coder_mutex);
 			counter ++;

@@ -6,7 +6,7 @@
 /*   By: omarquez <omarquez@student.42urduliz.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/11/04 10:07:14 by omarquez          #+#    #+#             */
-/*   Updated: 2026/11/12 12:40:26 by omarquez         ###   ########.fr       */
+/*   Updated: 2026/11/12 13:27:16 by omarquez         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,4 +48,18 @@ int	ft_get_highest_child(t_heap *heap, int i)
 			heap -> is_edf))
 		best = right;
 	return (best);
+}
+
+void	ft_push_request(
+	t_coder *coder, t_dongle *dongle,
+	long long req_time, long long deadline)
+{
+	t_request	req;
+
+	pthread_mutex_lock(&dongle -> mutex);
+	req.coder_id = coder -> id;
+	req.request_time = req_time;
+	req.deadline = deadline;
+	ft_heap_push(&dongle -> queue, req);
+	pthread_mutex_unlock(&dongle -> mutex);
 }
