@@ -6,7 +6,7 @@
 /*   By: omarquez <omarquez@student.42urduliz.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/11/03 10:26:33 by omarquez          #+#    #+#             */
-/*   Updated: 2026/11/12 15:17:20 by omarquez         ###   ########.fr       */
+/*   Updated: 2026/11/12 15:37:55 by omarquez         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ bool	ft_init_dongles(t_hub *hub)
 	return (true);
 }
 
-static void	ft_wait_and_take_dongle(t_coder *coder, t_dongle *dongle)
+/* static void	ft_wait_and_take_dongle(t_coder *coder, t_dongle *dongle)
 {
 	long long	wait_time;
 
@@ -73,6 +73,23 @@ static void	ft_wait_and_take_dongle(t_coder *coder, t_dongle *dongle)
 	ft_heap_pop(&dongle -> queue);
 	pthread_mutex_unlock(&dongle -> mutex);
 	ft_log_action(coder, "has taken a dongle");
+} */
+static void	ft_wait_both_dongles(t_coder *coder,
+		t_dongle *first, t_dongle *second)
+{
+	while (!ft_get_sim_status(coder->hub))
+	{
+		pthread_mutex_lock(&first->mutex);
+		pthread_mutex_lock(&second->mutex);
+		if (ft_can_take_both(coder, first, second))
+		{
+			ft_take_both_locked(coder, first, second);
+			return ;
+		}
+		pthread_mutex_unlock(&second->mutex);
+		pthread_mutex_unlock(&first->mutex);
+		usleep(100);
+	}
 }
 
 void	ft_acquire_dongles(t_coder *coder)
@@ -84,14 +101,20 @@ void	ft_acquire_dongles(t_coder *coder)
 
 	first = ft_decide_dongle(coder, true);
 	second = ft_decide_dongle(coder, false);
+	if (first == second)
+	{
+		ft_log_action(coder, "has taken a dongle");
+		while (!ft_get_sim_status(coder->hub))
+			usleep(500);
+		return ;
+	}
 	req_time = ft_get_time_ms();
 	pthread_mutex_lock(&coder -> coder_mutex);
 	deadline = coder -> last_t_compiled + coder -> hub -> t_burn;
 	pthread_mutex_unlock(&coder -> coder_mutex);
 	ft_push_request(coder, first, req_time, deadline);
 	ft_push_request(coder, second, req_time, deadline);
-	ft_wait_and_take_dongle(coder, first);
-	ft_wait_and_take_dongle(coder, second);
+	ft_wait_both_dongles(coder, first, second);
 }
 
 static void	ft_release_one_dongle(t_coder *coder, t_dongle *dongle)

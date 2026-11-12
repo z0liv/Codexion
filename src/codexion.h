@@ -6,7 +6,7 @@
 /*   By: omarquez <omarquez@student.42urduliz.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/10/12 09:54:04 by omarquez          #+#    #+#             */
-/*   Updated: 2026/11/12 15:16:04 by omarquez         ###   ########.fr       */
+/*   Updated: 2026/11/12 15:37:20 by omarquez         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -115,6 +115,11 @@ bool		ft_init_dongles(t_hub *hub);
 void		ft_acquire_dongles(t_coder *coder);
 void		ft_release_dongles(t_coder *coder);
 t_dongle	*ft_decide_dongle(t_coder *coder, bool min);
+bool		ft_can_take_both(t_coder *coder,
+				t_dongle *first, t_dongle *second);
+void		ft_take_both_locked(t_coder *coder,
+				t_dongle *first, t_dongle *second);
+
 bool		ft_cleanup_dongles(t_hub *hub, int count);
 
 /* Logs Functions */
