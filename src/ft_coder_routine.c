@@ -6,7 +6,7 @@
 /*   By: omarquez <omarquez@student.42urduliz.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/11/09 13:06:15 by omarquez          #+#    #+#             */
-/*   Updated: 2026/11/11 20:04:18 by omarquez         ###   ########.fr       */
+/*   Updated: 2026/11/12 11:32:25 by omarquez         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,6 +59,8 @@ void	*ft_coder_routine(void *arg)
 	pthread_mutex_unlock(&coder -> hub -> hub_mutex);
 	while (!ft_get_sim_status(coder -> hub))
 	{
+		if (coder -> id % 2 == 0)
+			usleep(1000);
 		ft_acquire_dongles(coder);
 		if (ft_get_sim_status(coder -> hub))
 			break ;
