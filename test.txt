@@ -1,25 +1,28 @@
 -> default:
-./codexion 4 1000 200 100 150 5 50 edf >log.txt
+valgrind --leak-check=full --show-leak-kinds=all --track-origins=yes --errors-for-leak-kinds=all ./codexion 4 1000 200 100 150 5 50 edf
+
 OK
 
 -> single coder:
-./codexion 1 800 200 100 100 3 0 fifo >log.txt
-OK
+valgrind --leak-check=full --show-leak-kinds=all --track-origins=yes --errors-for-leak-kinds=all ./codexion 1 800 200 100 100 3 0 fifo
 
 -> tight burnout:
-./codexion 5 610 200 100 100 5 0 edf >log.txt
+valgrind --leak-check=full --show-leak-kinds=all --track-origins=yes --errors-for-leak-kinds=all ./codexion 5 610 200 100 100 5 0 edf 
+
 OK
 
 -> imposible:
-./codexion 3 300 200 100 100 5 10 fifo >log.txt
+valgrind --leak-check=full --show-leak-kinds=all --track-origins=yes --errors-for-leak-kinds=all ./codexion 3 300 200 100 100 5 10 fifo 
+
 OK
 
 -> odd count:
-./codexion 5 800 200 200 200 7 0 fifo >log.txt
+valgrind --leak-check=full --show-leak-kinds=all --track-origins=yes --errors-for-leak-kinds=all ./codexion 5 800 200 200 200 7 0 fifo 
+
 OK
 
 -> long cooldown:
-./codexion 4 1000 100 100 100 5 400 edf >log.txt
+valgrind --leak-check=full --show-leak-kinds=all --track-origins=yes --errors-for-leak-kinds=all ./codexion 4 1000 100 100 100 5 400 edf 
 
 -> many coders:
-./codexion 200 1000 100 100 100 3 10 edf >log.txt
+valgrind --leak-check=full --show-leak-kinds=all --track-origins=yes --errors-for-leak-kinds=all ./codexion 200 1000 100 100 100 3 10 edf 
