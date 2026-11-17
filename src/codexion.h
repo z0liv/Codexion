@@ -6,7 +6,7 @@
 /*   By: omarquez <omarquez@student.42urduliz.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/10/12 09:54:04 by omarquez          #+#    #+#             */
-/*   Updated: 2026/11/12 15:37:20 by omarquez         ###   ########.fr       */
+/*   Updated: 2026/11/17 15:11:00 by omarquez         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ typedef enum e_status
 	REFACTORING,
 }	t_coder_status;
 
-typedef struct e_request
+typedef struct s_request
 {
 	int			coder_id;
 	long long	request_time;
