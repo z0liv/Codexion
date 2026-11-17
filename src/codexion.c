@@ -6,7 +6,7 @@
 /*   By: omarquez <omarquez@student.42urduliz.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/10/12 09:53:02 by omarquez          #+#    #+#             */
-/*   Updated: 2026/11/14 15:21:07 by omarquez         ###   ########.fr       */
+/*   Updated: 2026/11/17 10:58:50 by omarquez         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,9 +42,10 @@ static int	ft_handle_n_args(void)
 {
 	fprintf(stderr, "All arguments are mandatory\n");
 	fprintf(stderr, "You must run:\n");
-	fprintf(stderr, "./codexion <coders> <time_to_burnout> <time_to_compile>");
-	fprintf(stderr, " <time_to_debug> <time_to_refactor>");
-	fprintf(stderr, " <nb_compiles_required> <dongle_cooldown> <scheduler>\n");
+	fprintf(stderr, "./codexion <number_of_coders> <time_to_burnout>");
+	fprintf(stderr, " <time_to_compile> <time_to_debug>");
+	fprintf(stderr, " <time_to_refactor> <number_of_compiles_required>");
+	fprintf(stderr, " <dongle_cooldown> <scheduler>\n");
 	return (1);
 }
 
