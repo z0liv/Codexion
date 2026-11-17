@@ -6,11 +6,13 @@
 /*   By: omarquez <omarquez@student.42urduliz.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/10/13 09:05:41 by omarquez          #+#    #+#             */
-/*   Updated: 2026/11/17 09:22:24 by omarquez         ###   ########.fr       */
+/*   Updated: 2026/11/17 15:32:22 by omarquez         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "codexion.h"
+
+// Find a way to send the error msg as "should be a valid integer"
 
 static int	ft_helper(t_hub *data)
 {
