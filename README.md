@@ -47,8 +47,6 @@ Run the program with the 8 mandatory arguments:
 
 #### Usage Examples
 ```bash
-# 5 coders: EDF scheduling, 200ms compile, 100ms debug/refactor, 5 compiles, 0ms cooldown
-./codexion 5 610 200 100 100 5 0 edf
 
 # 4 coders: FIFO scheduling, 200ms compile, 150ms debug/refactor, 3 compiles, 50ms cooldown
 ./codexion 4 800 200 150 150 3 50 fifo
@@ -56,7 +54,7 @@ Run the program with the 8 mandatory arguments:
 # Balanced run: 4 coders with EDF scheduling (should complete without burnout)
 ./codexion 4 1000 200 100 150 5 50 edf
 
-# Single coder: Should burn out immediately as only 1 dongle is available
+# Single coder: Should burn out after time_to_burnout (800ms) as only 1 dongle is available.
 ./codexion 1 800 200 100 100 3 0 fifo
 
 # Tight burnout: 5 coders with strict timing margins under EDF scheduling
@@ -82,13 +80,13 @@ To guarantee liveness and strict compliance with the simulation constraints, the
    * **Circular Wait & Hold-and-Wait:** Broken through **resource hierarchy ordering** (always ordering dongle locks by ascending dongle ID) combined with **atomic dual-dongle acquisition**. A coder never holds one dongle while waiting indefinitely for the second; instead, a coder only claims both dongles when it is at the top of the priority queue for *both* left and right dongles simultaneously and both are free of cooldown.
 2. **Starvation Prevention:**
    * **FIFO Policy:** Requests are served strictly in arrival order using monotonic request timestamps/sequence counters inside a min-heap.
-   * **EDF Policy:** Requests are prioritized by the earliest burnout deadline (`last_compile_start + time_to_burnout`). Ties in deadlines are deterministically broken using the coder's unique ID to ensure predictable, starvation-free scheduling under feasible parameters.
+   * **EDF Policy:** Requests are prioritized by the earliest burnout deadline (`last_t_compiled + t_burn`). Ties in deadlines are deterministically broken using the coder's unique ID to ensure predictable, starvation-free scheduling under feasible parameters.
 3. **Dongle Cooldown Enforcement:**
-   * When a coder finishes compiling and releases their dongles, each dongle records its `available_at` timestamp (`current_time + dongle_cooldown`). Waiting threads verify the cooldown expiration before acquiring a dongle and use timed waits (`pthread_cond_timedwait`) or wake-up broadcasts to avoid busy-waiting.
+   * When a coder finishes compiling and releases their dongles, each dongle records its `available_at` timestamp (`current_time + t_d_cooldown`). Waiting threads verify the cooldown expiration before acquiring a dongle and use timed waits (`pthread_cond_wait`) or wake-up broadcasts to avoid busy-waiting.
 4. **Precise Burnout Detection (< 10 ms):**
-   * A dedicated monitor thread continuously inspects each coder's `last_compile_start` timestamp at high-frequency intervals (e.g., 500–1000 µs). Upon detecting `current_time - last_compile_start >= time_to_burnout`, it immediately updates the shared simulation stop flag, broadcasts to all condition variables to unblock waiting coders, and prints the burnout log within the 10 ms tolerance window.
+   * A dedicated monitor thread continuously inspects each coder's `last_t_compile` timestamp at high-frequency intervals (e.g., 500–1000 µs). Upon detecting `current_time - last_t_compiled >= t_burn`, it immediately updates the shared simulation stop flag, broadcasts to all condition variables to unblock waiting coders, and prints the burnout log within the 10 ms tolerance window.
 5. **Log Serialization:**
-   * All standard output logging is guarded by a dedicated `log_mutex` alongside a check on the simulation active flag, preventing interleaved characters and ensuring no state transitions are printed after a burnout event is announced.
+   * All standard output logging is guarded by a dedicated `print_mutex` alongside a check on the simulation active flag, preventing interleaved characters and ensuring no state transitions are printed after a burnout event is announced.
 
 ---
 
@@ -98,12 +96,12 @@ The implementation relies on standard POSIX threading primitives to coordinate s
 
 * **`pthread_mutex_t`:**
   * **Dongle / Arbitration Mutexes:** Protect dongle availability states, cooldown timestamps, and access to each dongle's binary min-heap priority queue.
-  * **Coder State Mutexes:** Protect individual coder metrics (`last_compile_start` and `compile_count`) read by the monitor thread and updated by the coder thread.
-  * **Start Barrier Mutex (`start_mutex`):** Synchronizes thread startup so all coders begin executing at the exact same `start_time` baseline once `pthread_create` has completed for every thread.
-  * **Log & Simulation State Mutex (`log_mutex` / `sim_mutex`):** Serializes `printf` calls and safely guards reads/writes to the global `simulation_stopped` flag.
+  * **Coder State Mutexes:** Protect individual coder metrics (`last_t_compile` and `c_compile`) read by the monitor thread and updated by the coder thread.
+  * **Start Barrier Mutex (`hub_mutex`):** Synchronizes thread startup so all coders begin executing at the exact same `start_time` baseline once `pthread_create` has completed for every thread.
+  * **Log & Simulation State Mutex (`print_mutex` / `hub_mutex`):** Serializes `printf` calls and safely guards reads/writes to the global `simulation_end` flag.
 * **`pthread_cond_t`:**
   * **Start Condition (`start_cond`):** Holds newly spawned coder threads at the entry barrier until the main thread broadcasts that initialization is complete.
-  * **Dongle Wait Queues (`dongle_cond` / `pthread_cond_wait`):** Allows coders waiting for dongle availability, priority turns, or cooldown expirations to sleep efficiently without burning CPU cycles, waking up immediately when a neighbor releases dongles, a cooldown expires, or the monitor signals simulation termination.
+  * **Dongle Wait Queues (`cond` / `pthread_cond_wait`):** Allows coders waiting for dongle availability, priority turns, or cooldown expirations to sleep efficiently without burning CPU cycles, waking up immediately when a neighbor releases dongles, a cooldown expires, or the monitor signals simulation termination.
 
 ### Thread-Safe Communication Flow (Coders ↔ Monitor)
 When a coder acquires both `l_dongle` and `r_dongle`, it locks `coder_mutex`, updates `last_t_compiled` with the current timestamp (and increments `c_compiled`), and unlocks `coder_mutex` before logging `is compiling`. Simultaneously, the monitor thread locks each coder's `coder_mutex` to safely read `last_t_compiled`, `c_compiled`, and `has_finish`. If a coder burns out or all coders reach `n_comp_req`, the monitor locks `hub_mutex` in `t_hub`, sets `simulation_end = true`, and triggers `pthread_cond_broadcast` across all dongle waiting queues so every blocked thread exits cleanly and joins without deadlocks or memory leaks.
