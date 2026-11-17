@@ -1,7 +1,7 @@
 NAME = codexion
 
 CC = cc
-FLAGS = -pthread -Wall -Wextra -Werror
+FLAGS = -Wall -Wextra -Werror -pthread
 OBJS_DIR = ./objs
 
 SRCS = src/codexion.c \
@@ -30,10 +30,6 @@ all: $(NAME)
 $(NAME): $(OBJS) 
 	$(CC) $(FLAGS) -o $@ $^
 
-run: $(NAME)
-	clear
-	./codexion
-
 $(OBJS_DIR)/%.o: %.c
 	@mkdir -p $(dir $@)
 	$(CC) $(FLAGS) $(INCLUDES) -c $< -o $@
@@ -45,8 +41,5 @@ fclean: clean
 	rm -f $(NAME)
 
 re: fclean all
-
-debug:
-	gcc -Wall -Wextra -Werror -g3 -fsanitize=thread src/*.c -o ${NAME} -lpthread
 
 .PHONY: all clean fclean re

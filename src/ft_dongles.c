@@ -6,7 +6,7 @@
 /*   By: omarquez <omarquez@student.42urduliz.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/11/03 10:26:33 by omarquez          #+#    #+#             */
-/*   Updated: 2026/11/12 15:37:55 by omarquez         ###   ########.fr       */
+/*   Updated: 2026/11/17 09:28:55 by omarquez         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,42 +38,6 @@ bool	ft_init_dongles(t_hub *hub)
 	return (true);
 }
 
-/* static void	ft_wait_and_take_dongle(t_coder *coder, t_dongle *dongle)
-{
-	long long	wait_time;
-
-	pthread_mutex_lock(&dongle -> mutex);
-	while (true)
-	{
-		if (ft_get_sim_status(coder -> hub))
-		{
-			pthread_mutex_unlock(&dongle -> mutex);
-			return ;
-		}
-		if (ft_heap_check(&dongle -> queue).coder_id != coder->id
-			|| dongle -> is_in_use)
-		{
-			pthread_cond_wait(&dongle -> cond, &dongle -> mutex);
-			continue ;
-		}
-		wait_time = dongle -> available_at - ft_get_time_ms();
-		if (wait_time > 0)
-		{
-			pthread_mutex_unlock(&dongle -> mutex);
-			if (wait_time > 1)
-				usleep((wait_time - 1) * 1000);
-			else
-				usleep(100);
-			pthread_mutex_lock(&dongle -> mutex);
-			continue ;
-		}
-		break ;
-	}
-	dongle -> is_in_use = true;
-	ft_heap_pop(&dongle -> queue);
-	pthread_mutex_unlock(&dongle -> mutex);
-	ft_log_action(coder, "has taken a dongle");
-} */
 static void	ft_wait_both_dongles(t_coder *coder,
 		t_dongle *first, t_dongle *second)
 {

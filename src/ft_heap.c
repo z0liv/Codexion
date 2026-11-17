@@ -6,13 +6,11 @@
 /*   By: omarquez <omarquez@student.42urduliz.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/11/03 09:52:37 by omarquez          #+#    #+#             */
-/*   Updated: 2026/11/11 18:56:20 by omarquez         ###   ########.fr       */
+/*   Updated: 2026/11/17 09:35:50 by omarquez         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "codexion.h"
-
-// TODO?: malloc fail?, clean shutdown.
 
 bool	ft_heap_init(t_heap *heap, int capacity, bool is_edf)
 {
@@ -65,7 +63,6 @@ void	ft_heap_push(t_heap *heap, t_request req)
 	}
 }
 
-// if size is <= 0 should return an empty request.
 t_request	ft_heap_pop(t_heap *heap)
 {
 	t_request	root;
@@ -79,7 +76,7 @@ t_request	ft_heap_pop(t_heap *heap)
 	heap -> queue[0] = heap -> queue[heap -> size - 1];
 	heap -> size --;
 	current = 0;
-	while (1)
+	while (true)
 	{
 		next = ft_get_highest_child(heap, current);
 		if (next == current)
@@ -92,7 +89,6 @@ t_request	ft_heap_pop(t_heap *heap)
 	return (root);
 }
 
-// return an empty request
 t_request	ft_heap_check(t_heap *heap)
 {
 	if (heap -> size > 0)

@@ -6,7 +6,7 @@
 /*   By: omarquez <omarquez@student.42urduliz.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/11/03 12:44:05 by omarquez          #+#    #+#             */
-/*   Updated: 2026/11/12 13:45:51 by omarquez         ###   ########.fr       */
+/*   Updated: 2026/11/17 09:32:19 by omarquez         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,9 +65,9 @@ bool	ft_start_simulation(t_hub *hub)
 	ft_open_start_gate(hub);
 	pthread_join(monitor, NULL);
 	counter = 0;
-	while (counter < hub->n_coders)
+	while (counter < hub -> n_coders)
 	{
-		pthread_join(hub->coders[counter].thread, NULL);
+		pthread_join(hub -> coders[counter].thread, NULL);
 		counter++;
 	}
 	return (true);
